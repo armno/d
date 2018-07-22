@@ -1,5 +1,6 @@
 // import config from '../config';
 const config = require('../config');
+const fetch = require('node-fetch');
 
 async function getBikeActivities() {
 	const bikeID = config.STRAVA_BIKE_ID;
@@ -29,4 +30,4 @@ async function getBikeActivities() {
 	return summary;
 }
 
-module.exports.getBikeActivities = getBikeActivities;
+module.exports = getBikeActivities;

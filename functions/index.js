@@ -9,5 +9,6 @@ const getBikeActivities = require('./getBikeActivities');
 // });
 
 exports.getBikeActivities = functions.https.onRequest((req, res) => {
-	return getBikeActivities();
+	const summary = await getBikeActivities();
+	res.send(summary)
 });
