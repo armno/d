@@ -1,41 +1,17 @@
 import Head from 'next/head';
 import React from 'react';
-import fetch from 'isomorphic-unfetch';
-import config from '../config';
+// import fetch from 'isomorphic-unfetch';
 import Link from 'next/link';
-
-async function getBikeActivities() {
-	const bikeID = config.STRAVA_BIKE_ID;
-	const apiKey = config.STRAVA_API_KEY;
-	const after = config.BIKE_SINCE;
-	const perPage = config.PER_PAGE;
-	const baseURL = `https://www.strava.com/api/v3/athlete/activities?after=${after}&per_page=${perPage}`;
-	const res = await fetch(baseURL, {
-		headers: {
-			Authorization: `Bearer ${apiKey}`
-		}
-	});
-	const activities = await res.json();
-	const activitiesByBike = activities.filter(activity => {
-		return activity.gear_id === bikeID && activity.type === 'Ride';
-	});
-	const summary = activitiesByBike.map(activity => {
-		return {
-			id: activity.id,
-			name: activity.name,
-			elevation: activity.total_elevation_gain,
-			distance: activity.distance,
-			time: activity.elapsed_time
-		};
-	});
-
-	return summary;
-}
+import getBikeActivities from '../functions/getBikeActivities';
 
 export default class extends React.Component {
 	static async getInitialProps({ req }) {
 		const summary = await getBikeActivities();
 		console.table(summary);
+		const sum = summary.map(s => s.elevation).reduce((prev, curr) => {
+			return prev + curr;
+		}, 0);
+		console.log(`SUM: ${sum}`);
 		return {
 			// elevation_gain: json.all_ride_totals.elevation_gain
 		};
