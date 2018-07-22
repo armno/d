@@ -1,11 +1,12 @@
 import Head from "next/head";
 import React from "react";
 import fetch from "isomorphic-unfetch";
+import config from "../config";
 
 export default class extends React.Component {
 	static async getInitialProps({ req }) {
-		const profileID = "bah";
-		const API_KEY = "beh";
+		const profileID = config.STRAVA_PROFILE_ID;
+		const API_KEY = config.STRAVA_API_KEY;
 
 		const baseURL = `https://www.strava.com/api/v3/athletes/${profileID}/stats`;
 		const res = await fetch(baseURL, {

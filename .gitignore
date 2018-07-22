@@ -11,3 +11,5 @@ bower_components/
 lib/
 jspm_packages/
 .next/
+
+config.js
