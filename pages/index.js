@@ -7,17 +7,32 @@ import Link from 'next/link';
 export default class extends React.Component {
 	static async getInitialProps({ req }) {
 		const profileID = config.STRAVA_PROFILE_ID;
+		const bikeID = config.STRAVA_BIKE_ID;
 		const API_KEY = config.STRAVA_API_KEY;
+		const after = config.BIKE_SINCE;
 
-		const baseURL = `https://www.strava.com/api/v3/athletes/${profileID}/stats`;
+		const baseURL = `https://www.strava.com/api/v3/athlete/activities?after=${after}&per_page=200`;
 		const res = await fetch(baseURL, {
 			headers: {
 				Authorization: `Bearer ${API_KEY}`
 			}
 		});
-		const json = await res.json();
+		const activities = await res.json();
+		const activitiesByBike = activities.filter(activity => {
+			return activity.gear_id === bikeID && activity.type === 'Ride';
+		});
+		const summary = activitiesByBike.map(activity => {
+			return {
+				id: activity.id,
+				name: activity.name,
+				elevation: activity.total_elevation_gain,
+				distance: activity.distance,
+				time: activity.elapsed_time
+			};
+		});
+		console.table(summary);
 		return {
-			elevation_gain: json.all_ride_totals.elevation_gain
+			// elevation_gain: json.all_ride_totals.elevation_gain
 		};
 	}
 
@@ -35,6 +50,8 @@ export default class extends React.Component {
 					body {
 						font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
 							Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+						background-color: #5395ff;
+						color: #fff;
 					}
 				`}</style>
 				<Link href="/about">
@@ -42,11 +59,10 @@ export default class extends React.Component {
 						style={{
 							fontSize: '3rem',
 							fontWeight: 'bold',
-							color: '#444',
 							textAlign: 'center'
 						}}
 					>
-						{this.props.elevation_gain}
+						{/* {this.props.elevation_gain} */}
 					</div>
 				</Link>
 			</div>
