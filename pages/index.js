@@ -1,7 +1,7 @@
-import Head from "next/head";
-import React from "react";
-import fetch from "isomorphic-unfetch";
-import config from "../config";
+import Head from 'next/head';
+import React from 'react';
+import fetch from 'isomorphic-unfetch';
+import config from '../config';
 
 export default class extends React.Component {
 	static async getInitialProps({ req }) {
