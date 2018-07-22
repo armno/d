@@ -2,6 +2,7 @@ import Head from 'next/head';
 import React from 'react';
 import fetch from 'isomorphic-unfetch';
 import config from '../config';
+import Link from 'next/link';
 
 export default class extends React.Component {
 	static async getInitialProps({ req }) {
@@ -30,8 +31,24 @@ export default class extends React.Component {
 						content="initial-scale=1.0, width=device-width"
 					/>
 				</Head>
-
-				<div>{this.props.elevation_gain}</div>
+				<style global jsx>{`
+					body {
+						font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+							Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+					}
+				`}</style>
+				<Link href="/about">
+					<div
+						style={{
+							fontSize: '3rem',
+							fontWeight: 'bold',
+							color: '#444',
+							textAlign: 'center'
+						}}
+					>
+						{this.props.elevation_gain}
+					</div>
+				</Link>
 			</div>
 		);
 	}
