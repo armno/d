@@ -12,4 +12,5 @@ lib/
 jspm_packages/
 .next/
 
-config.js
+**/*/config.ts
+functions/lib

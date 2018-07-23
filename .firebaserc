@@ -1,5 +1,6 @@
 {
   "projects": {
-    "visioner": "armno-visioner"
+    "visioner": "armno-visioner",
+    "default": "armno-visioner"
   }
 }
